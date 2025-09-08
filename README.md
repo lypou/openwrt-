@@ -5,6 +5,6 @@
 
 使用教程：
 
-终端执行 wget -O 1.sh https://example.com/1.sh && chmod +x 1.sh && ./1.sh
+终端执行 wget -O install.sh (https://raw.githubusercontent.com/lypou/openwrt-/refs/heads/main/install.sh) && ./install.sh
 
 鸣谢：kwrt项目
