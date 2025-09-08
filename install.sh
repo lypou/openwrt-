@@ -1,7 +1,6 @@
 #!/bin/bash
 delay_echo() {
     echo "$*"
-    # 使用 awk 空循环模拟 ~300ms 延迟
     awk 'BEGIN { for(i=0; i<300000; i++) { dummy = sqrt(i) } }' /dev/null
 }
 get_disk_size() {
@@ -25,7 +24,6 @@ actual_hash(){
     delay_echo "本地哈希: $hash_local"
     delay_echo "远程哈希: $hash_remote"
 
-# 比较哈希
 if [ "${hash_local,,}" = "${hash_remote,,}" ]; then
     delay_echo "✅ 文件校验无误"    
 else
@@ -39,7 +37,7 @@ fi
 read -p "本脚本会为您的X86设备安装全新的openwrt镜像，不保留旧的数据，继续吗？(y/N) 默认N: " -n 1 -r
 echo
 if [[ -z "$REPLY" || ! "$REPLY" =~ ^[Yy]$ ]]; then
-    delay_echo "操作已取消。"
+    echo "操作已取消。"
     exit 0
 fi
 #1.检查cpu架构
@@ -164,7 +162,7 @@ TMP_FILE="$DOWNLOAD_DIR/${GZ_FILE}.$$"
 delay_echo "正在下载文件："
 delay_echo "保存路径：$DOWNLOAD_DIR/$GZ_FILE"
 delay_echo "下载进度："
-# 使用 wget 显示实时进度条
+
 if wget \
     --timeout=30 \
     --tries=3 \
@@ -200,8 +198,8 @@ if [[ -z "$REPLY" || ! "$REPLY" =~ ^[Yy]$ ]]; then
     exit 0
 fi
 
-# 9. 使用 dd 写入 ISO 到磁盘
-delay_echo "正在使用 dd 写入镜像到硬盘，这可能会占用3分钟......"
+
+delay_echo "正在使用写入镜像到硬盘，这可能会占用几分钟时间......"
 if  dd if="$DOWNLOAD_DIR/tmp.img" of=/dev/sda  ; then
     delay_echo "恭喜：系统镜像已成功写入。"
     delay_echo "后台地址：$json_lanip"
