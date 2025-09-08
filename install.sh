@@ -190,7 +190,7 @@ fi
 delay_echo " 解压完成，正在校验镜像完整性..."
 ACTUAL_HASH=$(sha256sum "$DOWNLOAD_DIR/tmp.img" | awk '{print $1}')
 actual_hash "$ACTUAL_HASH" "$json_hash_img" "$DOWNLOAD_DIR/tmp.img"
-delay_echo "警告：即将安装镜像至硬盘，这将完全清除所有数据！"
+echo "警告：即将安装镜像至硬盘，这将完全清除所有数据！"
 read -p "确定要继续吗？此操作不可逆！(y/N): " -n 1 -r
 echo
 if [[ -z "$REPLY" || ! "$REPLY" =~ ^[Yy]$ ]]; then
@@ -199,14 +199,14 @@ if [[ -z "$REPLY" || ! "$REPLY" =~ ^[Yy]$ ]]; then
 fi
 
 
-delay_echo "正在使用写入镜像到硬盘，这可能会占用几分钟时间......"
+echo "正在使用写入镜像到硬盘，这可能会占用几分钟时间......"
 if  dd if="$DOWNLOAD_DIR/tmp.img" of=/dev/sda  ; then
     delay_echo "恭喜：系统镜像已成功写入。"
-    delay_echo "后台地址：$json_lanip"
+    echo "后台地址：$json_lanip"
     echo "后台密码: $json_psw"
     echo "交流群：https://t.me/+7hOyc9OQ9cUzMjU1"
 else
-    delay_echo "错误：镜像写入失败，即将退出。"
+    echo "错误：镜像写入失败，即将退出。"
     exit 1
 fi
 # 10. 提示是否重启
