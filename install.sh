@@ -199,7 +199,7 @@ if [[ -z "$REPLY" || ! "$REPLY" =~ ^[Yy]$ ]]; then
 fi
 
 
-echo "正在使用写入镜像到硬盘，这可能会占用几分钟时间......"
+echo "正在写入镜像到硬盘，这可能会占用几分钟时间......"
 if  dd if="$DOWNLOAD_DIR/tmp.img" of=/dev/sda  ; then
     delay_echo "恭喜：系统镜像已成功写入。"
     echo "后台地址：$json_lanip"
@@ -210,7 +210,7 @@ else
     exit 1
 fi
 # 10. 提示是否重启
-read -p "安装完成，是否现在重启系统？(y/N): "  -r
+read -p "安装完成，是否现在重启系统？(y/N,默认N): "  -r
 echo
 if [[ -z "$REPLY" || ! "$REPLY" =~ ^[Yy]$ ]]; then
     delay_echo "安装完成，系统未重启。你可以手动重启以应用更改。"
