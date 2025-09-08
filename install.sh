@@ -215,6 +215,7 @@ echo
 if [[ -z "$REPLY" || ! "$REPLY" =~ ^[Yy]$ ]]; then
     delay_echo "安装完成，系统未重启。你可以手动重启以应用更改。"
 else
+    rm -f "$DOWNLOAD_DIR/$GZ_FILE" "$DOWNLOAD_DIR/tmp.img"
     delay_echo "正在重启..."
     reboot
 fi
