@@ -12,12 +12,12 @@ actual_hash(){
     local hash_remote="$2"
     local file_local="$3"
     if [ -z  "$hash_local" ]; then
-        delay_echo "无法计算文件哈希值，开始清理本地文件并退出运行..."
+        delay_echo "无法计算文件哈希值，开始清理本地文件并结束运行..."
         rm -f "$file_local"
         exit 1
     fi
     if [ -z  "$hash_remote" ]; then
-        delay_echo "远程hash值无效，开始清理本地文件并退出运行..."
+        delay_echo "远程hash值无效，开始清理本地文件并结束运行..."
         rm -f "$file_local"
         exit 1
     fi
@@ -34,7 +34,7 @@ else
 fi
 }
 
-read -p "本脚本会为您的X86设备安装全新的openwrt镜像，不保留旧的数据，继续吗？(y/N) 默认N: " -n 1 -r
+read -p "本脚本会为您的X86设备安装全新的openwrt镜像，不保留旧的数据，继续吗？(y/N,默认N) : "  -r
 echo
 if [[ -z "$REPLY" || ! "$REPLY" =~ ^[Yy]$ ]]; then
     echo "操作已取消。"
@@ -172,7 +172,7 @@ if wget \
     -O "$TMP_FILE" \
     "$json_url"; then
     mv "$TMP_FILE" "$DOWNLOAD_DIR/$GZ_FILE"
-    delay_echo -e "\n✅ 下载成功,即将校验文件完整性"
+    delay_echo -e "✅ 下载成功,正在校验文件完整性..."
 else
     rm -f "$TMP_FILE"
     delay_echo -e "\n❌ 下载失败：无法从 '$json_url' 获取文件,请检查网络环境。" >&2
@@ -191,7 +191,7 @@ delay_echo " 解压完成，正在校验镜像完整性..."
 ACTUAL_HASH=$(sha256sum "$DOWNLOAD_DIR/tmp.img" | awk '{print $1}')
 actual_hash "$ACTUAL_HASH" "$json_hash_img" "$DOWNLOAD_DIR/tmp.img"
 echo "警告：即将安装镜像至硬盘，这将完全清除所有数据！"
-read -p "确定要继续吗？此操作不可逆！(y/N): " -n 1 -r
+read -p "确定要继续吗？此操作不可逆！(y/N): "  -r
 echo
 if [[ -z "$REPLY" || ! "$REPLY" =~ ^[Yy]$ ]]; then
     echo "操作已取消。"
@@ -210,12 +210,11 @@ else
     exit 1
 fi
 # 10. 提示是否重启
-read -p "安装完成，是否现在重启系统？(y/N): " -n 1 -r
+read -p "安装完成，是否现在重启系统？(y/N): "  -r
 echo
 if [[ -z "$REPLY" || ! "$REPLY" =~ ^[Yy]$ ]]; then
-    echo "操作已取消。"
-    exit 0
-fi
-else
     delay_echo "安装完成，系统未重启。你可以手动重启以应用更改。"
+else
+    delay_echo "正在重启..."
+    reboot
 fi
