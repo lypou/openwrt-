@@ -1,0 +1,2 @@
+# openwrt-
+这是一个适用于x86架构且拥有Linux环境的设备，自动化安装openwrt的脚本，适合在线完整安装openwrt镜像，推荐在openwrt上使用，它将自动获取镜像文件并安装它。
