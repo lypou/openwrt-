@@ -6,6 +6,7 @@
 使用教程：
 
 终端执行 
+
 wget -O install.sh https://raw.githubusercontent.com/lypou/openwrt-/refs/heads/main/install.sh && chmod +x install.sh && ./install.sh
 
 鸣谢：kwrt项目
